@@ -1,0 +1,5 @@
+.idea
+.vscode
+anime-dl-venv
+__pycache__
+dump
