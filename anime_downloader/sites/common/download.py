@@ -8,8 +8,8 @@ from tqdm import tqdm
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
 
-from .log import console
-from .convert import ts_to_mp4
+from anime_downloader.sites.common.log import console
+from anime_downloader.sites.common.convert import ts_to_mp4
 
 
 def dir_file_ext(file_path):

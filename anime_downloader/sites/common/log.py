@@ -1,4 +1,4 @@
-from .const import COLORS
+from anime_downloader.sites.common.const import COLORS
 
 
 class console:

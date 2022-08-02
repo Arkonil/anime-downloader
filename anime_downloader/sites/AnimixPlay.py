@@ -9,7 +9,7 @@ from selenium.common.exceptions import TimeoutException, NoSuchElementException,
 
 from seleniumwire import webdriver
 
-from common import console, download_m3u8
+from anime_downloader.sites.common import console, download_m3u8
 
 options = webdriver.ChromeOptions()
 options.add_experimental_option("excludeSwitches", ["enable-automation", "enable-logging"])

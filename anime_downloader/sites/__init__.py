@@ -1,1 +1,1 @@
-from .AnimixPlay import AnimixPlay
+from anime_downloader.sites.AnimixPlay import AnimixPlay
