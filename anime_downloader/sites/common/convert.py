@@ -1,6 +1,6 @@
 import subprocess
 
-def ts_to_mp4(*input_files, output_file):
+def ts_to_mp4(input_files, output_file):
 
     inputs = []
     for file in input_files:
