@@ -112,24 +112,17 @@ def download_m3u8(url, filepath, verbose=True, headers=None):
     m3u8_file = m3u8.load(url)
     playlist = get_best_quality_playlist(m3u8_file)
 
-    inputs = ['-i', f'{dirname}/video.ts']
+    input_files = [f'{dirname}/video.ts']
 
     video = m3u8.load(playlist.absolute_uri)
     download_segments(video, dirname, 'video', verbose, headers)
 
-    audio = None
     if playlist.media and playlist.media[0]:
         audio = m3u8.load(playlist.media[0].absolute_uri)
         download_segments(audio, dirname, 'audio', verbose, headers)
-        inputs.extend(['-i', f'{dirname}/audio.ts'])
+        input_files.append(f'{dirname}/audio.ts')
 
-    ts_to_mp4(f'{dirname}/video.ts', f'{dirname}/audio.ts', output_file=filepath)
+    ts_to_mp4(input_files, output_file=filepath)
 
-    os.remove(inputs[1])
-    if len(inputs) == 4:
-        os.remove(inputs[3])
-
-
-if __name__ == '__main__':
-    url = "https://manifest.prod.boltdns.net/manifest/v1/hls/v4/clear/6309801683001/79eed48e-fd8b-44b5-bdc9-050a9abc909c/6s/master.m3u8?fastly_token=NjJkYjMwM2RfYzQyMTE3ZWYyZTY4ZGM5YmFjYjk3ODg1NTQ2YmIzNmRmMDBjYmRiYmNhOGU3MTdlOWZmMzNiZjg1ZWQ0MmI0Yw=="
-    download_m3u8(url, "E:/Watchables/Anime/sample.mp4")
+    for file in input_files:
+        os.remove(file)
