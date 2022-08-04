@@ -12,6 +12,7 @@ from seleniumwire import webdriver
 from anime_downloader.sites.common import console, download_m3u8
 
 options = webdriver.ChromeOptions()
+options.add_argument("--headless")
 options.add_experimental_option("excludeSwitches", ["enable-automation", "enable-logging"])
 options.add_experimental_option('useAutomationExtension', False)
 
