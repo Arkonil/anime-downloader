@@ -1,6 +1,5 @@
 import os
 import re
-import time
 import traceback
 
 from selenium.webdriver.common.by import By
@@ -37,7 +36,6 @@ class AnimixPlay:
         self.current_file_path = ""
 
     def get_page(self, url, log=True):
-        time.sleep(5)
         del self.driver.requests
         console.log(f"GET: {url}", log)
         self.driver.get(url)
