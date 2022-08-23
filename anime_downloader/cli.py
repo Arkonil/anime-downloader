@@ -1,7 +1,7 @@
 import argparse
 import os
 
-from anime_downloader.sites import AnimixPlay
+from anime_downloader.sites import get_site
 
 
 def parse_episode_arg(episodes: str) -> list[int]:
@@ -41,9 +41,13 @@ def main():
     args = parser.parse_args()
 
     episodes = parse_episode_arg(args.episodes)
+
+    site_class = get_site(args.url)
     
-    anime = AnimixPlay(args.url, episodes, args.outdir, args.name)
+    anime = site_class(args.url, episodes, args.outdir, args.name)
     anime.download()
 
 if __name__ == '__main__':
-    main()
+    url = "https://animixplay.to/v1/fullmetal-alchemist"
+    anime = get_site(url)(url, [21], "E:/Anime")
+    anime.download()
