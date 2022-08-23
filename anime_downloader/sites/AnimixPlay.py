@@ -104,6 +104,8 @@ class AnimixPlay:
                 os.makedirs(out_dir)
 
             self.find_episodes()
+            if not self.desired_episodes:
+                self.desired_episodes = self.available_episodes
             print()
 
             for episode in self.desired_episodes:
