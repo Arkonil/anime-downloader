@@ -5,6 +5,9 @@ from anime_downloader.sites import AnimixPlay
 
 
 def parse_episode_arg(episodes: str) -> list[int]:
+    if episodes == "":
+        return []
+
     try:
         return [int(episodes)]
     except ValueError:
@@ -27,7 +30,11 @@ def main():
     parser = argparse.ArgumentParser()
 
     parser.add_argument('url', help="URL of the anime", type=str)
-    parser.add_argument('episodes', help="Either comma separated episode number or slice")
+    parser.add_argument('-e', '--episodes', default="",
+        help="""
+            Either comma separated episode number or slice. 
+            If not provided all available episodes will be downloaded.
+        """)
     parser.add_argument('--outdir', '-o', help="Output directory (default current directory)", default=os.getcwd())
     parser.add_argument('--name', '-n', help="Anime Name", default="")
 
