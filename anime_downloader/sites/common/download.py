@@ -8,8 +8,8 @@ from tqdm import tqdm
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
 
-from anime_downloader.sites.common.log import console
-from anime_downloader.sites.common.convert import ts_to_mp4
+from .log import console
+from .convert import ts_to_mp4
 
 
 def dir_file_ext(file_path):
@@ -106,13 +106,13 @@ def download_segments(playlist, dirname, media_type='video', verbose=True, heade
     shutil.rmtree(f"{dirname}/{media_type}")
 
 
-def download_m3u8(url, filepath, verbose=True, headers=None):
+def download_m3u8(url, filepath, verbose=True, headers=None, subtitle:str=""):
     dirname = os.path.dirname(filepath)
 
     m3u8_file = m3u8.load(url)
     playlist = get_best_quality_playlist(m3u8_file)
 
-    input_files = [f'{dirname}/video.ts']
+    input_files = {'video': f'{dirname}/video.ts'}
 
     video = m3u8.load(playlist.absolute_uri)
     download_segments(video, dirname, 'video', verbose, headers)
@@ -120,9 +120,17 @@ def download_m3u8(url, filepath, verbose=True, headers=None):
     if playlist.media and playlist.media[0]:
         audio = m3u8.load(playlist.media[0].absolute_uri)
         download_segments(audio, dirname, 'audio', verbose, headers)
-        input_files.append(f'{dirname}/audio.ts')
+        input_files['audio'] = f'{dirname}/audio.ts'
+
+    if subtitle:
+        input_files['subtitle'] = f'{dirname}/subtitle.vtt'
+        with open(input_files['subtitle'], 'w') as fp:
+            fp.write(subtitle)
 
     ts_to_mp4(input_files, output_file=filepath)
 
-    for file in input_files:
+    if not os.path.isfile(filepath):
+        raise FileNotFoundError(f"{filepath} is not created.")
+
+    for file in input_files.values():
         os.remove(file)
